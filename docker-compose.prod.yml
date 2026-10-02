@@ -7,13 +7,13 @@ x-log: &log
 
 services:
   mongo:
-    image: mongo:7
+    image: mongo:4.4   # serverda AVX yo'q: 5.0+ ishlamaydi
     restart: unless-stopped
     # ports: YO'Q — faqat ichki tarmoq
     volumes:
       - modul_mongo_data:/data/db
     healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      test: ["CMD", "mongo", "--quiet", "--eval", "db.adminCommand('ping').ok"]
       interval: 10s
       timeout: 5s
       retries: 10
