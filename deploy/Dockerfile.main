@@ -1,0 +1,27 @@
+# Asosiy tizim: sanfak-frontend (build) + sanfak-backend (API + frontendni o'zi uzatadi)
+FROM node:20-bookworm-slim AS web
+WORKDIR /web
+COPY sanfak-frontend/package.json sanfak-frontend/yarn.lock sanfak-frontend/.npmrc ./
+RUN yarn install --frozen-lockfile
+COPY sanfak-frontend/ ./
+# .env.production (VITE_API_URL=/api) o'zi olinadi
+RUN yarn build
+
+FROM node:20-bookworm-slim
+ENV NODE_ENV=production TZ=Asia/Tashkent
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      build-essential python3 python3-venv python3-pip curl \
+      libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev \
+      tesseract-ocr tesseract-ocr-uzb tesseract-ocr-rus tesseract-ocr-eng \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY sanfak-backend/src/scripts/requirements.txt /tmp/requirements.txt
+RUN python3 -m venv /opt/venv && /opt/venv/bin/pip install --no-cache-dir -r /tmp/requirements.txt
+ENV PYTHON_PATH=/opt/venv/bin/python
+COPY sanfak-backend/package.json sanfak-backend/yarn.lock ./
+RUN yarn install --frozen-lockfile --production && yarn cache clean
+COPY sanfak-backend/ ./
+COPY --from=web /web/dist/ ./public/build/
+RUN mkdir -p logs uploads private/residency-expulsion-orders
+EXPOSE 4000
+CMD ["node", "src/index.js"]

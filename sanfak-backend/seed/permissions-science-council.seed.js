@@ -1,0 +1,48 @@
+"use strict";
+
+const {
+  runModuleSeed,
+  CRUD_ACTIONS,
+  APPROVAL_ACTIONS,
+} = require("./_module-permission-lib");
+const { MODULES, ACTIONS } = require("../src/config/constants");
+
+const SCIENCE_COUNCIL_ACTIONS = [
+  ...CRUD_ACTIONS,
+  ACTIONS.CHANGE_STATUS,
+  ACTIONS.REVIEW,
+  ACTIONS.SIGN,
+  ACTIONS.DASHBOARD,
+  ACTIONS.MANAGE_MEMBERS,
+  ACTIONS.SUBMIT_WORK,
+  ACTIONS.NOTIFICATIONS,
+];
+
+const SECTIONS = [
+  MODULES.SCIENCE_COUNCIL,
+  MODULES.SCIENTIFIC_WORK,
+  MODULES.WORK_REVIEW,
+  MODULES.WORK_DECISION,
+];
+
+const ACTIONS_OVERRIDE = {
+  [MODULES.SCIENCE_COUNCIL]: SCIENCE_COUNCIL_ACTIONS,
+  [MODULES.SCIENTIFIC_WORK]: APPROVAL_ACTIONS,
+  [MODULES.WORK_REVIEW]: CRUD_ACTIONS,
+  [MODULES.WORK_DECISION]: APPROVAL_ACTIONS,
+};
+
+const TITLES = {
+  [MODULES.SCIENCE_COUNCIL]: "Ilmiy kengash (modul)",
+  [MODULES.SCIENTIFIC_WORK]: "Ilmiy ishlar",
+  [MODULES.WORK_REVIEW]: "Ish taqrizlari",
+  [MODULES.WORK_DECISION]: "Ish qarorlari",
+};
+
+runModuleSeed({
+  label: "4.6 Ilmiy kengash (ilmiy ishlar)",
+  groupCode: "4.6",
+  sections: SECTIONS,
+  actionsOverride: ACTIONS_OVERRIDE,
+  titles: TITLES,
+});

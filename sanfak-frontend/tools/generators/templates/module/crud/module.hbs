@@ -1,0 +1,43 @@
+import { lazy } from 'react';
+import { AppstoreOutlined } from '@ant-design/icons';
+import { defineModule } from '@/shared/lib/module';
+
+export default defineModule({
+  name: '{{kebabCase name}}',
+  routes: [
+    {
+      index: true,
+      permission: '{{kebabCase name}}:item:read',
+      element: lazy(() => import('./pages/{{kebabCase name}}-page')),
+    },
+  ],
+  menu: [
+    {
+      titleKey: '{{kebabCase name}}.nav',
+      icon: <AppstoreOutlined />,
+      path: '/{{kebabCase name}}',
+      order: 100,
+      permission: '{{kebabCase name}}:item:read',
+    },
+  ],
+  i18n: {
+    uz: {
+      '{{kebabCase name}}.nav': '{{titleCase name}}',
+      '{{kebabCase name}}.new_item': 'Yangi',
+    },
+    ru: {
+      '{{kebabCase name}}.nav': '{{titleCase name}}',
+      '{{kebabCase name}}.new_item': 'Новый',
+    },
+    en: {
+      '{{kebabCase name}}.nav': '{{titleCase name}}',
+      '{{kebabCase name}}.new_item': 'New {{kebabCase name}}',
+    },
+  },
+  permissions: [
+    { key: '{{kebabCase name}}:item:read', description: 'View {{kebabCase name}}' },
+    { key: '{{kebabCase name}}:item:create', description: 'Create {{kebabCase name}}' },
+    { key: '{{kebabCase name}}:item:update', description: 'Update {{kebabCase name}}' },
+    { key: '{{kebabCase name}}:item:delete', description: 'Delete {{kebabCase name}}' },
+  ],
+});

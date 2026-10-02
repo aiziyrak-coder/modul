@@ -1,0 +1,55 @@
+import type { {{pascalCase name}}Item, {{pascalCase name}}Input } from '../model/types';
+
+function nowIso(): string {
+  return new Date(0).toISOString();
+}
+
+let nextId = 1;
+function makeId(): string {
+  return `{{kebabCase name}}-${String(nextId++).padStart(4, '0')}`;
+}
+
+const items: {{pascalCase name}}Item[] = [];
+
+export interface ListResult {
+  items: {{pascalCase name}}Item[];
+  meta: { page: number; limit: number; total: number };
+}
+
+export function listItems(params: { page?: number; search?: string } = {}): ListResult {
+  const search = (params.search ?? '').trim().toLowerCase();
+  const filtered = search
+    ? items.filter((i) => i.name.toLowerCase().includes(search))
+    : items;
+  const limit = 20;
+  const page = params.page ?? 1;
+  const start = (page - 1) * limit;
+  return {
+    items: filtered.slice(start, start + limit),
+    meta: { page, limit, total: filtered.length },
+  };
+}
+
+export function createItem(input: {{pascalCase name}}Input): {{pascalCase name}}Item {
+  const item: {{pascalCase name}}Item = {
+    id: makeId(),
+    ...input,
+    createdAt: nowIso(),
+    updatedAt: nowIso(),
+  };
+  items.unshift(item);
+  return item;
+}
+
+export function updateItem(id: string, patch: Partial<{{pascalCase name}}Input>): {{pascalCase name}}Item {
+  const found = items.find((i) => i.id === id);
+  if (!found) throw new Error(`{{pascalCase name}} ${id} not found`);
+  Object.assign(found, patch, { updatedAt: nowIso() });
+  return found;
+}
+
+export function deleteItem(id: string): void {
+  const idx = items.findIndex((i) => i.id === id);
+  if (idx === -1) throw new Error(`{{pascalCase name}} ${id} not found`);
+  items.splice(idx, 1);
+}

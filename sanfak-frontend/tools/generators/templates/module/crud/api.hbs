@@ -1,0 +1,42 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { ListParams } from '@/shared/api';
+import type { {{pascalCase name}}Input } from '../model/types';
+import * as store from './mock-store';
+
+const {{constantCase name}}_KEY = '{{kebabCase name}}';
+
+function delay<T>(value: T, ms = 150): Promise<T> {
+  return new Promise((resolve) => setTimeout(() => resolve(value), ms));
+}
+
+export function use{{pascalCase name}}List(params: ListParams) {
+  return useQuery({
+    queryKey: [{{constantCase name}}_KEY, params],
+    queryFn: () => delay(store.listItems(params)),
+  });
+}
+
+export function useCreate{{pascalCase name}}() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: {{pascalCase name}}Input) => delay(store.createItem(body)),
+    onSuccess: () => qc.invalidateQueries({ queryKey: [{{constantCase name}}_KEY] }),
+  });
+}
+
+export function useUpdate{{pascalCase name}}() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }: { id: string; body: Partial<{{pascalCase name}}Input> }) =>
+      delay(store.updateItem(id, body)),
+    onSuccess: () => qc.invalidateQueries({ queryKey: [{{constantCase name}}_KEY] }),
+  });
+}
+
+export function useDelete{{pascalCase name}}() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => delay(store.deleteItem(id)),
+    onSuccess: () => qc.invalidateQueries({ queryKey: [{{constantCase name}}_KEY] }),
+  });
+}

@@ -1,0 +1,123 @@
+import { useState } from 'react';
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import type { ColumnDef } from '@tanstack/react-table';
+import {
+  App,
+  Button,
+  DataTable,
+  Filters,
+  Modal,
+  PageContainer,
+  Space,
+  Tag,
+  useConfirm,
+} from '@/shared/ui';
+import { getApiErrorMessage } from '@/shared/api';
+import { useTranslation } from '@/shared/lib/i18n';
+import { Can } from '@/app/session';
+import { useDelete{{pascalCase name}}, use{{pascalCase name}}List } from '../api/{{kebabCase name}}-api';
+import type { {{pascalCase name}}Item } from '../model/types';
+import { {{pascalCase name}}Form } from './{{kebabCase name}}-form';
+
+export default function {{pascalCase name}}Page() {
+  const { t } = useTranslation();
+  const { message } = App.useApp();
+  const { confirmDelete } = useConfirm();
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
+  const [open, setOpen] = useState(false);
+  const [editing, setEditing] = useState<{{pascalCase name}}Item | null>(null);
+
+  const { data, isLoading } = use{{pascalCase name}}List({ page, search });
+  const deleteItem = useDelete{{pascalCase name}}();
+
+  const openCreate = () => {
+    setEditing(null);
+    setOpen(true);
+  };
+  const openEdit = (item: {{pascalCase name}}Item) => {
+    setEditing(item);
+    setOpen(true);
+  };
+  const remove = (id: string) =>
+    confirmDelete(async () => {
+      try {
+        await deleteItem.mutateAsync(id);
+        message.success(t('deleted'));
+      } catch (error) {
+        message.error(getApiErrorMessage(error));
+      }
+    });
+
+  const columns: ColumnDef<{{pascalCase name}}Item>[] = [
+    { header: 'name', accessorKey: 'name' },
+    {
+      header: 'status',
+      accessorKey: 'isActive',
+      cell: (c) => (
+        <Tag color={c.getValue<boolean>() ? 'green' : 'default'}>
+          {t(c.getValue<boolean>() ? 'active' : 'inactive')}
+        </Tag>
+      ),
+    },
+    {
+      header: 'actions',
+      id: 'actions',
+      cell: (c) => (
+        <Space>
+          <Can perform="{{kebabCase name}}:item:update">
+            <Button size="small" icon={<EditOutlined />} onClick={() => openEdit(c.row.original)} />
+          </Can>
+          <Can perform="{{kebabCase name}}:item:delete">
+            <Button
+              size="small"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => remove(c.row.original.id)}
+            />
+          </Can>
+        </Space>
+      ),
+    },
+  ];
+
+  return (
+    <PageContainer title={t('{{kebabCase name}}.nav')}>
+      <Space direction="vertical" style={{ width: '100%' }} size="middle">
+        <Filters
+          searchPlaceholder="search"
+          onSearch={(value) => {
+            setSearch(value);
+            setPage(1);
+          }}
+          extra={
+            <Can perform="{{kebabCase name}}:item:create">
+              <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>
+                {t('{{kebabCase name}}.new_item')}
+              </Button>
+            </Can>
+          }
+        />
+        <DataTable<{{pascalCase name}}Item>
+          loading={isLoading}
+          columns={columns}
+          data={data?.items ?? []}
+          page={page}
+          pageSize={data?.meta.limit}
+          total={data?.meta.total}
+          onPageChange={(p) => setPage(p)}
+        />
+      </Space>
+
+      <Modal
+        open={open}
+        title={editing ? t('edit') : t('{{kebabCase name}}.new_item')}
+        onCancel={() => setOpen(false)}
+        footer={null}
+        destroyOnHidden
+      >
+        <{{pascalCase name}}Form item={editing} onDone={() => setOpen(false)} />
+      </Modal>
+    </PageContainer>
+  );
+}

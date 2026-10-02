@@ -1,0 +1,125 @@
+{
+  "title": null,
+  "formVersion": "v259",
+  "status": "in_review",
+  "confirmation": {},
+  "science": { "name": "Ichki kasalliklar propedevtikasi", "code": "IKP" },
+  "label": null,
+  "directions": [
+    { "name": "Davolash ishi", "directionCode": "60910200" },
+    { "name": "Pediatriya ishi", "directionCode": "60910300" }
+  ],
+  "knowledgeArea": ["900 000 - Sog'liqni saqlash va ijtimoiy ta'minot"],
+  "educationArea": ["910 000 - Sog'liqni saqlash"],
+  "code": "IKP 2205",
+  "serialNumber": "2.05",
+  "academicYear": { "title": "2025/2026" },
+  "semester": "5/6",
+  "credits": 8,
+  "moduleType": "Majburiy",
+  "language": "O'zbek/rus",
+  "weeklyHours": 6,
+  "hourItems": [
+    { "slug": "maruza", "title": "Ma'ruza", "value": 30 },
+    { "slug": "amaliy", "title": "Amaliy", "value": 90 },
+    { "slug": "mustaqil", "title": "Mustaqil ta'lim", "value": 120 }
+  ],
+  "classroomHours": 120,
+  "independentHours": 120,
+  "totalHours": 240,
+  "scienceEssence": {
+    "title": "I. Fanning mazmuni",
+    "sciencePurpose": {
+      "title": "Fanni o'qitishning maqsadi",
+      "desc": "talabalarga ichki a'zolar kasalliklarini tekshirishning asosiy klinik usullarini (so'rab-surishtirish, ko'rish, paypaslash, perkussiya, auskultatsiya) o'rgatish, asosiy simptom va sindromlarni aniqlash, ularning patogenetik mohiyatini tushuntirish, laborator-instrumental tekshiruv natijalarini talqin qilish hamda bemor bilan muloqotda deontologiya qoidalariga rioya qilish ko'nikmalarini shakllantirishdan iborat."
+    },
+    "scienceTasks": {
+      "title": "Fanni o'qitishning vazifalari",
+      "desc": "talabalarni ichki kasalliklar semiotikasi bilan tanishtirish; bemorni klinik tekshirish usullarini amaliyotda mustahkamlash; kasallik tarixini yozish tartibini o'rgatish; asosiy klinik sindromlarni farqlash va dastlabki tashxis qo'yish malakasini rivojlantirish; hamshiralik parvarishi va shoshilinch yordamning umumiy tamoyillarini o'rgatishdan iborat."
+    }
+  },
+  "theoretical": {
+    "title": "II. Asosiy nazariy qism (ma'ruza mashg'ulotlari)",
+    "desc": "II.I. Fan tarkibiga quyidagi mavzular kiradi:",
+    "topics": [
+      { "order": 1, "title": "Kirish. Ichki kasalliklar propedevtikasi fanining predmeti, maqsadi va vazifalari", "desc": "Propedevtika fanining tibbiyot tarixidagi o'rni. Klinik tekshirish usullarining rivojlanish bosqichlari. Kasallik tarixi — asosiy tibbiy hujjat: uning bo'limlari, yozish tartibi va huquqiy ahamiyati. Shifokor va bemor munosabatlari, tibbiy etika va deontologiya tamoyillari. Bemorni so'rab-surishtirish: shikoyatlar, kasallik anamnezi, hayot anamnezi." },
+      { "order": 2, "title": "Bemorni umumiy ko'rikdan o'tkazish", "desc": "Bemorning umumiy ahvoli, ong holati, tana tuzilishi va holati. Teri va ko'rinadigan shilliq qavatlarni tekshirish: rang, namlik, turgor, toshmalar, qon quyilishlar. Teri osti yog' qatlami, shishlar, limfa tugunlari. Suyak-bo'g'im va mushak tizimini tekshirish. Tana harorati va isitma turlari." },
+      { "order": 3, "title": "Nafas olish tizimini tekshirish usullari", "desc": "Nafas tizimi kasalliklarida bemorning shikoyatlari: yo'tal, balg'am, hansirash, ko'krak qafasidagi og'riq, qon tuflash. Ko'krak qafasini ko'rish va paypaslash. O'pkaning qiyosiy va topografik perkussiyasi. O'pka auskultatsiyasi: asosiy va qo'shimcha nafas shovqinlari, ularning kelib chiqish mexanizmi va diagnostik ahamiyati." },
+      { "order": 4, "title": "Nafas olish tizimining asosiy klinik sindromlari", "desc": "O'pka to'qimasi zichlashuvi sindromi, bronxial obstruktsiya sindromi, o'pka emfizemasi, plevra bo'shlig'ida suyuqlik va havo to'planishi sindromlari, nafas yetishmovchiligi. Har bir sindromning subyektiv va obyektiv belgilari, laborator va instrumental tasdiqlash usullari (spirometriya, rentgenografiya, balg'am tahlili)." },
+      { "order": 5, "title": "Yurak-qon tomir tizimini tekshirish usullari", "desc": "Yurak kasalliklarida shikoyatlar: yurak sohasidagi og'riq, yurak urishi, hansirash, shishlar. Yurak sohasini ko'rish va paypaslash: yurak turtkisi, uchki turtki, titrash. Yurakning nisbiy va absolyut chegaralarini perkussiya qilish. Yurak auskultatsiyasi: tonlar, ularning o'zgarishi, shovqinlar va ularning tasnifi. Arterial puls va qon bosimini o'lchash." },
+      { "order": 6, "title": "Yurak-qon tomir tizimining asosiy klinik sindromlari", "desc": "Yurak yetishmovchiligi (o'tkir va surunkali), arterial gipertenziya, yurak ritmi buzilishlari, koronar yetishmovchilik sindromi. Klapan nuqsonlarining semiotikasi: mitral va aortal stenoz va yetishmovchilik. Elektrokardiografiya asoslari va EKG ning normal ko'rsatkichlari." },
+      { "order": 7, "title": "Hazm tizimini tekshirish usullari", "desc": "Hazm a'zolari kasalliklarida shikoyatlar: qorin og'rig'i, ko'ngil aynishi, qusish, jig'ildon qaynashi, ich ketishi va qabziyat. Qorinni ko'rish, yuzaki va chuqur sirg'anchiq paypaslash (Obraztsov–Strajesko usuli), perkussiya va auskultatsiya. Jigar va taloqni tekshirish: Kurlov bo'yicha jigar o'lchamlari. Hazm tizimining asosiy sindromlari." },
+      { "order": 8, "title": "Siydik ajratish, qon yaratish va endokrin tizimlarini tekshirish", "desc": "Buyrak kasalliklarida shikoyatlar va obyektiv belgilar: shishlar, arterial gipertenziya, siydik ajralishining buzilishi. Siydikning umumiy tahlili, Zimnitskiy va Nechiporenko sinamalari. Qon yaratish tizimi: anemik, gemorragik sindromlar, umumiy qon tahlili talqini. Endokrin tizim: qandli diabet va qalqonsimon bez kasalliklarining semiotikasi." }
+    ]
+  },
+  "seminarRecommendation": {
+    "title": "III. Seminar mashg'ulotlari bo'yicha ko'rsatma va tavsiyalar",
+    "desc": "Kasallik tarixini yozish tartibi va uning bo'limlari.\nNafas tizimini tekshirishning fizikal usullari.\nYurak tonlari va shovqinlarining auskultativ tahlili.\nQorin bo'shlig'i a'zolarini paypaslash usullari.\nLaborator tekshiruv natijalarini talqin qilish."
+  },
+  "independentTask": {
+    "title": "IV. Mustaqil ta'lim va mustaqil ishlar",
+    "desc": "Klinik tekshirish usullarining tarixiy rivojlanishi (referat).\nIsitma turlari va harorat egri chiziqlari (taqdimot).\nO'pka auskultatsiyasida qo'shimcha shovqinlarning farqlanishi.\nEKG ning normal ko'rsatkichlarini o'rganish (mustaqil ish).\nShishlarning kelib chiqish mexanizmlari va farqlash (jadval tuzish).\nJigar va taloq kattalashuvi sindromlari (klinik holat tahlili)."
+  },
+  "learningOutcome": {
+    "title": "V. Fan o'qitilishining natijalari (shakllanadigan kompetensiyalar)",
+    "learningOutcome": "Fanni o'zlashtirish natijasida talaba:",
+    "desc": "ichki a'zolar kasalliklarining asosiy simptom va sindromlarini, ularning patogenetik mohiyatini bilishi kerak;\nbemorni so'rab-surishtirish, ko'rish, paypaslash, perkussiya va auskultatsiya usullarini mustaqil bajarish ko'nikmalariga ega bo'lishi kerak;\nkasallik tarixini yozish, laborator-instrumental tekshiruv natijalarini talqin qilish va dastlabki tashxis qo'yish malakalariga ega bo'lishi kerak."
+  },
+  "teachingMethods": {
+    "title": "VI. Ta'lim texnologiyalari va metodlari:",
+    "desc": "ma'ruzalar;\namaliy mashg'ulotlarda bemor yonida ishlash;\ninterfaol keys-stadilar;\nguruhlarda ishlash;\ntaqdimotlar qilish;\nklinik holatlarni tahlil qilish."
+  },
+  "creditRequirements": {
+    "title": "VII. Kreditlarni olish uchun talablar:",
+    "desc": "Fanga oid nazariy va uslubiy tushunchalarni to'la o'zlashtirish, klinik tekshirish usullarini amaliyotda mustaqil bajarish, joriy va oraliq nazorat shakllarida berilgan vazifa va topshiriqlarni bajarish, kasallik tarixini himoya qilish hamda yakuniy nazorat bo'yicha yozma ishni topshirish."
+  },
+  "literatureGroups": [
+    {
+      "slug": "guidance",
+      "title": "Rahbariy adabiyotlar:",
+      "desc": "1. Sh.M. Mirziyoyev. Yangi O'zbekiston taraqqiyot strategiyasi. To'ldirilgan ikkinchi nashri. - Toshkent: O'zbekiston, 2022.\n2. O'zbekiston Respublikasi Prezidentining 2020-yil 12-noyabrdagi PF-6110-sonli \"Sog'liqni saqlash tizimida yangi bosqich\" Farmoni."
+    },
+    {
+      "slug": "primary",
+      "title": "Asosiy adabiyotlar",
+      "literatures": [
+        "Gadayev A.G. Ichki kasalliklar propedevtikasi. Darslik. - Toshkent: Tibbiyot nashriyoti, 2021.",
+        "Mukhin N.A., Moiseyev V.S. Propedevtika vnutrennix bolezney. - M.: GEOTAR-Media, 2020.",
+        "Bickley L.S. Bates' Guide to Physical Examination and History Taking. 13th ed. - Wolters Kluwer, 2021."
+      ]
+    },
+    {
+      "slug": "additional",
+      "title": "Qo'shimcha adabiyotlar",
+      "literatures": [
+        "Qosimov E.Y. Ichki kasalliklar semiotikasi. O'quv qo'llanma. - Toshkent, 2019.",
+        "Strutynskiy A.V. Osnovy semiotiki zabolevaniy vnutrennix organov. - M.: MEDpress-inform, 2019."
+      ]
+    },
+    {
+      "slug": "information",
+      "title": "Axborot manbalari",
+      "desc": "www.ziyonet.uz\nwww.pubmed.gov\nwww.uptodate.com"
+    }
+  ],
+  "approval_info": null,
+  "responsible": {
+    "title": "Fan-modul uchun mas'ullar:",
+    "desc": "A.A. Karimov - FJSTI \"Ichki kasalliklar\" kafedrasi mudiri, tibbiyot fanlari doktori, professor.\nD.B. Yusupova - FJSTI \"Ichki kasalliklar\" kafedrasi assistenti."
+  },
+  "reviewer": {
+    "title": "Taqrizchilar:",
+    "desc": "Sh.R. Rahimov - FJSTI \"Fakultet terapiyasi\" kafedrasi professori, tibbiyot fanlari doktori.\nN.T. Ergasheva - Farg'ona viloyati ko'p tarmoqli tibbiyot markazi terapiya bo'limi boshlig'i, tibbiyot fanlari nomzodi."
+  },
+  "approvalSteps": [
+    { "step": "teacher", "status": "approved", "approvedBy": { "firstName": "Aziz", "lastName": "Karimov" }, "date": "2026-08-20T09:00:00.000Z" },
+    { "step": "kafedra", "status": "approved", "approvedBy": { "firstName": "Aziz", "lastName": "Karimov" }, "date": "2026-08-22T09:00:00.000Z" },
+    { "step": "methodical", "status": "approved", "approvedBy": { "firstName": "Malika", "lastName": "Tosheva" }, "date": "2026-08-25T09:00:00.000Z", "protocol": "1" },
+    { "step": "prorektor", "status": "approved", "approvedBy": { "firstName": "Bahodir", "lastName": "Rasulov" }, "date": "2026-08-27T09:00:00.000Z" },
+    { "step": "rektor", "status": "approved", "approvedBy": { "firstName": "Ulug'bek", "lastName": "Boltaboyev" }, "date": "2026-08-28T09:00:00.000Z" }
+  ],
+  "barcode": null,
+  "verify": null,
+  "location": null,
+  "city": null
+}

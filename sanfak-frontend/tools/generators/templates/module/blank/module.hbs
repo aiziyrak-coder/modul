@@ -1,0 +1,31 @@
+import { lazy } from 'react';
+import { AppstoreOutlined } from '@ant-design/icons';
+import { defineModule } from '@/shared/lib/module';
+
+export default defineModule({
+  name: '{{kebabCase name}}',
+  routes: [
+    {
+      index: true,
+      permission: '{{kebabCase name}}:view',
+      element: lazy(() => import('./pages/{{kebabCase name}}-page')),
+    },
+  ],
+  menu: [
+    {
+      titleKey: '{{kebabCase name}}.nav',
+      icon: <AppstoreOutlined />,
+      path: '/{{kebabCase name}}',
+      order: 100,
+      permission: '{{kebabCase name}}:view',
+    },
+  ],
+  i18n: {
+    uz: { '{{kebabCase name}}.nav': '{{titleCase name}}' },
+    ru: { '{{kebabCase name}}.nav': '{{titleCase name}}' },
+    en: { '{{kebabCase name}}.nav': '{{titleCase name}}' },
+  },
+  permissions: [
+    { key: '{{kebabCase name}}:view', description: 'View {{kebabCase name}}' },
+  ],
+});

@@ -1,0 +1,14 @@
+import * as Yup from 'yup';
+import type { {{pascalCase name}}Item, {{pascalCase name}}Input } from '../model/types';
+
+export const {{camelCase name}}Schema = Yup.object({
+  name: Yup.string().required('required'),
+  isActive: Yup.boolean().required(),
+});
+
+export function toInitialValues(item: {{pascalCase name}}Item | null): {{pascalCase name}}Input {
+  return {
+    name: item?.name ?? '',
+    isActive: item?.isActive ?? true,
+  };
+}

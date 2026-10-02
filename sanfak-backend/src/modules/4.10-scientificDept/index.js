@@ -1,0 +1,30 @@
+const router = require("express").Router();
+
+router.use("/annual-reports", require("./annualReport/annualReport.routes"));
+router.use("/qualifying-applicants", require("./qualifyingApplicant/qualifyingApplicant.routes"));
+router.use("/articles", require("./article/article.routes"));
+router.use("/oak-journals", require("./oakJournal/oakJournal.routes"));
+router.use("/theses", require("./thesis/thesis.routes"));
+router.use("/thesis-categories", require("./thesisCategory/thesisCategory.routes"));
+router.use("/scientific-templates", require("./scientificTemplate/scientificTemplate.routes"));
+router.use("/methodical-recommendations", require("./methodicalRecommendation/methodicalRecommendation.routes"));
+router.use("/methodical-specialties", require("./methodicalSpecialty/methodicalSpecialty.routes"));
+router.use("/monographs", require("./monograph/monograph.routes"));
+router.use("/conferences", require("./conference/conference.routes"));
+router.use("/work-plans", require("./departmentWorkPlan/departmentWorkPlan.routes"));
+router.use("/patents", require("./patent/patent.routes"));
+router.use("/copyrights", require("./copyright/copyright.routes"));
+router.use("/scientific-degrees", require("./scientificDegree/scientificDegree.routes"));
+router.use("/defenses", require("./defense/defense.routes"));
+router.use("/scientific-titles", require("./scientificTitle/scientificTitle.routes"));
+router.use("/economic-contracts", require("./economicContract/economicContract.routes"));
+router.use("/h-index-profiles", require("./hIndexProfile/hIndexProfile.routes"));
+router.use("/exam-specialties", require("./examSpecialty/examSpecialty.routes"));
+router.use("/scientific-posts", require("./scientificPost/scientificPost.routes"));
+router.use("/startups", require("./startup/startup.routes"));
+router.use("/startup-types", require("./startupType/startupType.routes"));
+router.use("/scientific-statistics", require("./scientificStatistics/scientificStatistics.routes"));
+router.use("/scientific-dashboard", require("./dashboard/dashboard.routes"));
+router.use("/scientific-references", require("./referenceLookup/referenceLookup.routes"));
+
+module.exports = router;

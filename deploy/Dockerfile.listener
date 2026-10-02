@@ -1,0 +1,18 @@
+# Tinglovchi kabineti: frontend (build) + backend
+FROM node:20-bookworm-slim AS web
+WORKDIR /web
+COPY fjsti-tinglovchi/frontend/package.json fjsti-tinglovchi/frontend/package-lock.json ./
+RUN npm ci
+COPY fjsti-tinglovchi/frontend/ ./
+ENV VITE_API_URL=/api
+RUN npm run build
+
+FROM node:20-bookworm-slim
+ENV NODE_ENV=production TZ=Asia/Tashkent
+WORKDIR /app
+COPY fjsti-tinglovchi/backend/package.json fjsti-tinglovchi/backend/package-lock.json ./
+RUN npm ci --omit=dev
+COPY fjsti-tinglovchi/backend/ ./
+COPY --from=web /web/dist/ ./public/build/
+EXPOSE 4500
+CMD ["node", "src/index.js"]

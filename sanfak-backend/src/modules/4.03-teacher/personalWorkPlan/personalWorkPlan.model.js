@@ -1,0 +1,248 @@
+const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
+const aggregatePaginate = require("mongoose-aggregate-paginate-v2");
+const PlanApprovalStepSchema = require("../_shared/planApprovalStep.schema");
+
+const APPROVAL_STEPS = [
+  { step: "teacher", label: "Kafedra assistenti (o'qituvchining o'zi)" },
+  {
+    step: "kafedraUslubiy",
+    label:
+      "Kafedraning o'quv va o'quv-uslubiy ishlar bo'yicha mas'ul xodimi",
+  },
+  {
+    step: "kafedraIlmiy",
+    label: "Kafedraning ilmiy-tadqiqot ishlari bo'yicha mas'ul xodimi",
+  },
+  {
+    step: "kafedraUstozShogird",
+    label: 'Kafedraning "Ustoz-shogird" ishlari bo\'yicha mas\'ul xodimi',
+  },
+  { step: "kafedraMudiri", label: "Kafedra mudiri" },
+  { step: "oquvUslubiy", label: "O'quv-uslubiy boshqarma boshlig'i" },
+  { step: "dekan", label: "Fakultet dekani" },
+  {
+    step: "ichkiNazorat",
+    label: "Ichki nazorat va monitoring bo'limi mas'ul xodimi",
+  },
+];
+
+function buildDefaultApprovals() {
+  return APPROVAL_STEPS.map(({ step, label }) => ({ step, label, status: "pending" }));
+}
+
+const WorkItemSchema = new mongoose.Schema(
+  {
+    title:       { type: String, required: true },
+    description: { type: String, default: null },
+    deadline:    { type: Date,   default: null },
+    completedAt: { type: Date,   default: null },
+    status: {
+      type: String,
+      enum: ["planned", "completed", "overdue", "cancelled"],
+      default: "planned",
+    },
+    fileUrl: { type: String, default: null },
+    note:    { type: String, default: null },
+
+    link: { type: String, default: null },
+
+    verification: {
+      status: {
+        type: String,
+        enum: ["pending", "approved", "rejected"],
+        default: "pending",
+      },
+      reviewedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+        default: null,
+      },
+      date: { type: Date, default: null },
+      comment: { type: String, default: null },
+    },
+
+    plannedCount: { type: Number, default: 0 },
+    actualCount:  { type: Number, default: 0 },
+
+    semester: { type: [{ type: Number, enum: [1, 2] }], default: [] },
+
+    venue: { type: String, default: null },
+
+    studentName: { type: String, default: null },
+    topic:       { type: String, default: null },
+    workType:    { type: String, default: null },
+  },
+  { _id: true, toJSON: { virtuals: true }, toObject: { virtuals: true } },
+);
+
+WorkItemSchema.virtual("effectiveStatus").get(function effectiveStatus() {
+  if (this.status === "planned" && this.deadline && this.deadline < new Date()) {
+    return "overdue";
+  }
+  return this.status;
+});
+
+const TeachingScienceSchema = new mongoose.Schema(
+  {
+    science: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "science",
+      default: null,
+    },
+    scienceName:  { type: String, default: null },
+    course:       { type: Number, default: 0 },
+    courseRef:    { type: mongoose.Schema.Types.ObjectId, ref: "course", default: null },
+    semester:     { type: Number, default: 0 },
+    hoursByType: {
+      lecture:     { type: Number, default: 0 },
+      seminar:     { type: Number, default: 0 },
+      laboratory:  { type: Number, default: 0 },
+      practical:   { type: Number, default: 0 },
+      independent: { type: Number, default: 0 },
+      on:           { type: Number, default: null },
+      yan:          { type: Number, default: null },
+      retake:       { type: Number, default: null },
+      practiceLead: { type: Number, default: null },
+      otherWork:    { type: Number, default: null },
+      adjustment:   { type: Number, default: null },
+    },
+    totalHour:  { type: Number, default: 0 },
+    stavka:     { type: Number, default: 1.0 },
+    streamCount: { type: Number, default: null },
+    groupCount:  { type: Number, default: null },
+    blockId:     { type: mongoose.Schema.Types.ObjectId, default: null },
+    distributionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "workloadDistribution",
+      default: null,
+    },
+    teacherEntryId: { type: mongoose.Schema.Types.ObjectId, default: null },
+    workload: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "workload",
+      default: null,
+    },
+    scienceProgram: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "scienceProgram",
+      default: null,
+    },
+    syllabus: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "syllabus",
+      default: null,
+    },
+  },
+  { _id: true },
+);
+
+const PersonalWorkPlanSchema = new mongoose.Schema(
+  {
+    teacher: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
+    name: { type: String, default: null },
+    academicYear: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "academicYear",
+      required: true,
+    },
+    semester:     { type: Number, enum: [1, 2], default: null },
+
+    teachingLoad: {
+      autoGenerated: { type: Boolean, default: false },
+      generatedAt:   { type: Date,   default: null },
+      plannedHour:   { type: Number, default: 0 },
+      completedHour: { type: Number, default: 0 },
+      sciences: { type: [TeachingScienceSchema], default: [] },
+    },
+
+    methodicalWork: { type: [WorkItemSchema], default: [] },
+
+    researchWork: { type: [WorkItemSchema], default: [] },
+
+    mentoringWork: { type: [WorkItemSchema], default: [] },
+
+    organizationalWork: { type: [WorkItemSchema], default: [] },
+
+    extraWork: { type: [WorkItemSchema], default: [] },
+
+    status: {
+      type: String,
+      enum: ["draft", "submitted", "approved", "rejected", "completed"],
+      default: "draft",
+    },
+    approvals: { type: [PlanApprovalStepSchema], default: [] },
+    approvedBy:   { type: mongoose.Schema.Types.ObjectId, ref: "user", default: null },
+    approvalDate: { type: Date,   default: null },
+    approvalComment: { type: String, default: null },
+
+    fileUrl: { type: String, default: null },
+    active:  { type: Boolean, default: true },
+
+    verify: {
+      token: { type: String },
+      issuedAt: { type: Date, default: null },
+      issuedBy: { type: mongoose.Schema.Types.ObjectId, ref: "user", default: null },
+      revokedAt: { type: Date, default: null },
+      revokedReason: { type: String, default: null },
+      snapshot: {
+        type: [
+          new mongoose.Schema(
+            {
+              step: { type: String, default: null },
+              label: { type: String, default: null },
+              shortName: { type: String, default: null },
+              date: { type: Date, default: null },
+            },
+            { _id: false },
+          ),
+        ],
+        default: [],
+      },
+    },
+  },
+  { timestamps: true, versionKey: false },
+);
+
+PersonalWorkPlanSchema.plugin(mongoosePaginate);
+PersonalWorkPlanSchema.plugin(aggregatePaginate);
+
+PersonalWorkPlanSchema.index({ teacher: 1, academicYear: 1 });
+PersonalWorkPlanSchema.index({ "teachingLoad.sciences.distributionId": 1 });
+PersonalWorkPlanSchema.index({ "teachingLoad.sciences.workload": 1 });
+PersonalWorkPlanSchema.index(
+  { "verify.token": 1 },
+  { unique: true, partialFilterExpression: { "verify.token": { $type: "string" } } },
+);
+
+function fillDefaultApprovals(next) {
+  if (this.isNew && (!this.approvals || this.approvals.length === 0)) {
+    this.approvals = buildDefaultApprovals();
+  }
+  next();
+}
+PersonalWorkPlanSchema.pre("save", fillDefaultApprovals);
+
+PersonalWorkPlanSchema.pre("save", async function (next) {
+  try {
+    const { resolveCourse } = require("#references/_services/courseResolver");
+    const sciences = this.teachingLoad?.sciences || [];
+    for (const s of sciences) {
+      if (s.course && !s.courseRef) {
+        s.courseRef = await resolveCourse(s.course);
+      }
+    }
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+module.exports = mongoose.model("personalWorkPlan", PersonalWorkPlanSchema);
+module.exports.APPROVAL_STEPS = APPROVAL_STEPS;
+module.exports.buildDefaultApprovals = buildDefaultApprovals;
+module.exports.fillDefaultApprovals = fillDefaultApprovals;

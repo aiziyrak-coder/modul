@@ -1,0 +1,43 @@
+{
+  "_yangilandi": "2026-09-17",
+  "counts": {
+    "max-lines-per-function": 615,
+    "max-lines": 54,
+    "max-statements": 158,
+    "max-params": 51,
+    "max-depth": 44,
+    "complexity": 379
+  },
+  "eng_yirik": {
+    "max-lines-per-function": {
+      "value": 506,
+      "file": "src/modules/4.02-studyLoad/_pdf/studyPlan.pdf.js",
+      "line": 658
+    },
+    "max-lines": {
+      "value": 1843,
+      "file": "src/modules/4.02-studyLoad/workingSchedule/workingSchedule.controller.js",
+      "line": 718
+    },
+    "max-statements": {
+      "value": 176,
+      "file": "src/modules/4.02-studyLoad/_pdf/studyPlan.pdf.js",
+      "line": 658
+    },
+    "max-params": {
+      "value": 9,
+      "file": "src/modules/4.02-studyLoad/_pdf/studyPlan.pdf.js",
+      "line": 1163
+    },
+    "max-depth": {
+      "value": 7,
+      "file": "src/modules/4.02-studyLoad/studyPlan/studyPlan.model.js",
+      "line": 277
+    },
+    "complexity": {
+      "value": 106,
+      "file": "src/modules/4.02-studyLoad/_pdf/syllabus.pdf.js",
+      "line": 196
+    }
+  }
+}

@@ -1,0 +1,45 @@
+import { Form, Formik } from 'formik';
+import { App, SubmitButton, SwitchField, TextField } from '@/shared/ui';
+import { getApiErrorMessage } from '@/shared/api';
+import { useTranslation } from '@/shared/lib/i18n';
+import { useCreate{{pascalCase name}}, useUpdate{{pascalCase name}} } from '../api/{{kebabCase name}}-api';
+import type { {{pascalCase name}}Item, {{pascalCase name}}Input } from '../model/types';
+import { {{camelCase name}}Schema, toInitialValues } from './{{kebabCase name}}.schema';
+
+interface Props {
+  item: {{pascalCase name}}Item | null;
+  onDone: () => void;
+}
+
+export function {{pascalCase name}}Form({ item, onDone }: Props) {
+  const { t } = useTranslation();
+  const { message } = App.useApp();
+  const createItem = useCreate{{pascalCase name}}();
+  const updateItem = useUpdate{{pascalCase name}}();
+
+  const onSubmit = async (values: {{pascalCase name}}Input) => {
+    try {
+      if (item) await updateItem.mutateAsync({ id: item.id, body: values });
+      else await createItem.mutateAsync(values);
+      message.success(t('saved'));
+      onDone();
+    } catch (error) {
+      message.error(getApiErrorMessage(error));
+    }
+  };
+
+  return (
+    <Formik
+      initialValues={toInitialValues(item)}
+      validationSchema={ {{camelCase name}}Schema }
+      onSubmit={onSubmit}
+      enableReinitialize
+    >
+      <Form>
+        <TextField name="name" label="name" />
+        <SwitchField name="isActive" label="active" />
+        <SubmitButton loading={createItem.isPending || updateItem.isPending} />
+      </Form>
+    </Formik>
+  );
+}

@@ -1,0 +1,31 @@
+# {{titleCase name}}
+
+This module lives entirely under `src/modules/{{kebabCase name}}/`. Everything it
+contributes to the app is declared in `{{kebabCase name}}.module.tsx`:
+
+- Routes — auto-mounted at `/{{kebabCase name}}/*`
+- Sidebar menu entries
+- Translations (uz / ru / en)
+- Permission keys + descriptions
+
+## Suggested layout
+
+```
+{{kebabCase name}}/
+├── {{kebabCase name}}.module.tsx   ← manifest (single source of truth)
+├── pages/                          ← route page components
+├── components/                     ← module-specific UI (when shared/ui doesn't fit)
+├── api/                            ← TanStack Query hooks + data source
+├── model/                          ← types, zustand stores
+├── lib/                            ← helpers
+└── widgets/                        ← composite widgets
+```
+
+Add as many folders/files inside as you need — the *outside* of this folder is
+off-limits, the inside is yours.
+
+## Reminders
+
+- Don't import from another module (`@/modules/<other>`) — eslint will block.
+- Don't edit `shared/`, `app/`, `package.json` without the lead's approval.
+- Use generators (`pnpm gen:module`) for new modules.

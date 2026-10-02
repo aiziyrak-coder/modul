@@ -1,0 +1,30 @@
+const router = require("express").Router();
+
+router.use("/faculties", require("./faculty/faculty.routes"));
+router.use("/departments", require("./department/department.routes"));
+router.use("/sciences", require("./science/science.routes"));
+router.use("/science-branches", require("./scienceBranch/scienceBranch.routes"));
+router.use("/directions", require("./direction/direction.routes"));
+router.use("/divisions", require("./division/division.routes"));
+router.use("/courses", require("./course/course.routes"));
+router.use("/positions", require("./position/position.routes"));
+router.use("/rooms", require("./room/room.routes"));
+router.use("/groups", require("./group/group.routes"));
+router.use("/academic-levels", require("./academicLevel/academicLevel.routes"));
+router.use("/academic-titles", require("./academicTitle/academicTitle.routes"));
+router.use("/auditorium-hour", require("./auditoriumHour/auditoriumHour.routes"));
+router.use("/education-forms", require("./educationForm/educationForm.routes"));
+router.use("/education-activity-types", require("./educationActivityType/educationActivityType.routes"));
+router.use("/reading-forms", require("./readingForm/readingForm.routes"));
+router.use("/specializations", require("./specialization/specialization.routes"));
+router.use("/studyPeriods", require("./studyPeriod/studyPeriod.routes"));
+router.use("/academic-years", require("./academicYear/academicYear.routes"));
+router.use("/assessment-types", require("./assessmentType/assessmentType.routes"));
+router.use("/countries", require("./country/country.routes"));
+router.use("/provinces", require("./province/province.routes"));
+router.use("/regions", require("./region/region.routes"));
+router.use("/public-offer", require("./publicOffer/publicOffer.routes"));
+router.use("/language-of-instruction", require("./languageOfInstruction/languageOfInstruction.routes"));
+router.use("/sla-configs", require("./slaConfig/slaConfig.routes"));
+
+module.exports = router;

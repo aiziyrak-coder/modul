@@ -1,0 +1,10 @@
+import { PageContainer } from '@/shared/ui';
+import { useTranslation } from '@/shared/lib/i18n';
+
+export default function {{pascalCase name}}Page() {
+  const { t } = useTranslation();
+  return (
+    <PageContainer title={t('{{kebabCase name}}.nav')}>
+    </PageContainer>
+  );
+}
