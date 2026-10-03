@@ -11,6 +11,7 @@ const FacultySchema = new mongoose.Schema(
       index: true,
     },
     active: { type: Boolean, default: true },
+    hemisId: { type: Number, default: null }, // HEMIS bo'limi id si (sinxron kaliti)
   },
   {
     timestamps: true,
