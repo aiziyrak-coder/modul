@@ -20,6 +20,7 @@ const PositionSchema = new mongoose.Schema(
       index: true,
     },
     active: { type: Boolean, default: true },
+    hemisCode: { type: String, default: null }, // HEMIS lavozim kodi (sinxron kaliti)
   },
   {
     timestamps: true,
