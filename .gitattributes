@@ -1,0 +1,6 @@
+# Shell skriptlar va deploy fayllari doim LF (serverda CRLF bilan buziladi)
+*.sh text eol=lf
+docker-compose*.yml text eol=lf
+Dockerfile* text eol=lf
+*.js text eol=lf
+*.py text eol=lf
