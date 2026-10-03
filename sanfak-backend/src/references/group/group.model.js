@@ -36,6 +36,7 @@ const GroupSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    hemisId: { type: Number, default: null }, // HEMIS guruh id si
   },
   { timestamps: true, versionKey: false },
 );

@@ -68,6 +68,7 @@ const DirectionSchema = new mongoose.Schema(
       index: true,
     },
     active: { type: Boolean, default: true },
+    hemisId: { type: Number, default: null }, // HEMIS yo'nalish id si
   },
   {
     timestamps: true,

@@ -93,6 +93,7 @@ const StudentSchema = new mongoose.Schema(
     },
 
     active: { type: Boolean, default: true },
+    hemisId: { type: Number, default: null }, // HEMIS talaba id si (sinxron kaliti)
   },
   { timestamps: true, versionKey: false },
 );
