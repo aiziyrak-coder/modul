@@ -38,6 +38,7 @@ module.exports = {
     ICHKI_NAZORAT: "ichki_nazorat",
     FAKULTET_KENGASH_KOTIBI: "fakultet_kengash_kotibi",
     MODERATOR: "moderator",
+    HODIM: "hodim",
   },
 
   USER_STATUSES: {

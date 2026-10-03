@@ -42,6 +42,7 @@
     "seed:super-admin": "node seed/super-admin.seed.js",
     "seed:first-admin": "node seed/first-admin.seed.js",
     "seed:moderator": "node seed/moderator-role.seed.js",
+    "seed:hodim": "node seed/hodim-role.js",
     "seed:studyload-roles": "node seed/studyload-roles.seed.js",
     "seed:magistratura-user": "node seed/magistratura-user.seed.js",
     "seed:gifted-roles": "node seed/gifted-roles.seed.js",

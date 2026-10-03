@@ -16,23 +16,7 @@ const mongoose = require("mongoose");
 
 const APPLY = process.argv.includes("--apply");
 
-const norm = (s) =>
-  String(s || "")
-    .toLowerCase()
-    .replace(/[‘’ʻʼ`´']/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-
-// HEMIS lavozimi -> rol. Faqat ishonchli moslar. Tartib muhim: yuqoridagi kuchliroq.
-const ROLE_RULES = [
-  { re: /^kafedra mudiri$/, role: "kafedra_mudiri", rank: 3 },
-  { re: /^(professor|dotsent|katta oqituvchi|oqituvchi|assistent|stajer.?oqituvchi|stajer oqituvchi)$/, role: "oqituvchi", rank: 1 },
-];
-const roleForPosition = (name) => {
-  const n = norm(name);
-  const hit = ROLE_RULES.find((r) => r.re.test(n));
-  return hit ? { role: hit.role, rank: hit.rank } : null;
-};
+const { roleForPosition } = require("../src/modules/4.14-hemis/hemis.roles");
 
 const readStdin = () =>
   new Promise((resolve, reject) => {
