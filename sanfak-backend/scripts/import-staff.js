@@ -15,6 +15,8 @@ require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 const mongoose = require("mongoose");
 
 const APPLY = process.argv.includes("--apply");
+// HEMIS'da topilmagan, lekin kamerada JSHSHIRi bor xodimlarni ham yaratish (ma'lumot faqat kameradan)
+const INCLUDE_UNMATCHED = process.argv.includes("--include-unmatched");
 
 const { roleForPosition } = require("../src/modules/4.14-hemis/hemis.roles");
 
@@ -85,7 +87,15 @@ const readStdin = () =>
     seenPin.add(c.pinfl);
 
     const cand = byKey.get(c.hemisId);
-    if (!c.hemisId || !cand) { stats.hemisTopilmadi++; continue; }
+    if (!c.hemisId || !cand) {
+      stats.hemisTopilmadi++;
+      if (INCLUDE_UNMATCHED) {
+        const m = roleForPosition(c.position);
+        const rt = m && roles.has(m.role) ? m.role : roles.has("hodim") ? "hodim" : null;
+        toCreate.push({ c, base: null, roleTitle: rt, posName: c.position || "(lavozim yo'q)" });
+      }
+      continue;
+    }
     if (cand.size > 1) { stats.hemisBirNechta++; continue; }
     stats.hemisBogLangan++;
 
@@ -129,18 +139,19 @@ const readStdin = () =>
     let ok = 0, fail = 0;
     for (const x of final) {
       try {
-        const d = x.base;
+        const d = x.base || {};
+        const parts = x.c.fullName.split(" ").filter(Boolean);
         const user = await UserModel.create({
-          firstName: d.first_name || x.c.fullName.split(" ")[1] || "-",
-          lastName: d.second_name || x.c.fullName.split(" ")[0] || "-",
-          middleName: d.third_name || null,
+          firstName: d.first_name || parts[1] || "-",
+          lastName: d.second_name || parts[0] || "-",
+          middleName: d.third_name || parts.slice(2).join(" ") || null,
           oneIdPin: x.c.pinfl,
           role: x.roleTitle ? roles.get(x.roleTitle) : null,
           active: true,
         });
         await FaceLink.updateOne(
           { camStaffId: x.c.camId },
-          { $set: { user: user._id, hemisId: x.c.hemisId, source: "import" } },
+          { $set: { user: user._id, hemisId: x.c.hemisId || null, source: "import" } },
           { upsert: true },
         );
         ok++;
