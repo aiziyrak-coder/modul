@@ -69,6 +69,23 @@ const isListenerAccount = async (user) => {
 };
 
 module.exports = {
+  // Hisob allaqachon tasdiqlangan (masalan yuz orqali) — sessiya ochish. PIN tekshiruvi shu yerda yo'q.
+  loginAsUser: async (user) => {
+    if (typeof user.active === "boolean" && user.active === false) {
+      throw new ErrorHandler(403, "Foydalanuvchi bloklangan");
+    }
+    if (await isListenerAccount(user)) {
+      throw new ErrorHandler(403, LISTENER_BLOCKED_MSG);
+    }
+    const { accessToken, refreshToken } = issueTokens(user);
+    user.refreshToken = null;
+    user.refreshTokenHash = hashToken(refreshToken);
+    user.refreshTokenPrevHash = null;
+    user.refreshTokenRotatedAt = new Date();
+    await user.save();
+    return { accessToken, refreshToken, user };
+  },
+
   loginWithCredentials: async (credentials) => {
     const identity = await provider.verify(credentials);
 

@@ -29,6 +29,7 @@ const { startExpulsionCron } = require("./app/scheduler/expulsionCron");
 const { startSlaCheckerCron } = require("./app/scheduler/slaCheckerCron");
 const { startEriExpiryCron } = require("./app/scheduler/eriExpiryCron");
 const { startSamsMonitorCron } = require("./app/scheduler/samsMonitorCron");
+const { startHemisSyncCron } = require("./app/scheduler/hemisSyncCron");
 const startupRbacCheck = require("./shared/startupRbacCheck");
 const swaggerUi = require("swagger-ui-express");
 const fs = require("fs");
@@ -216,6 +217,8 @@ startSlaCheckerCron();
 startEriExpiryCron();
 
 startSamsMonitorCron();
+
+startHemisSyncCron();
 
 httpServer.listen(PORT, LISTEN_HOST, () => {
   winston.info(`Server ishga tushdi: ${LISTEN_HOST}:${PORT}`);

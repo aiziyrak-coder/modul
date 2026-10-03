@@ -29,6 +29,30 @@ services:
       interval: 10s
     logging: *log
 
+  # Yuz vektori xizmati (InsightFace buffalo_l, cam.fermi.uz bilan bir xil model). Faqat ichki tarmoq.
+  # Image iMentor'dan tayyor; kod deploy/face_service da, modellar o'z hajmimizda
+  # (birinchi ishga tushishda yuklanadi). root: yangi hajmga yozish uchun.
+  face:
+    image: imentor-face-base:20260917
+    working_dir: /srv
+    user: "0"
+    command: ["python", "-m", "uvicorn", "face_service.main:app", "--host", "0.0.0.0", "--port", "8200", "--workers", "1"]
+    restart: unless-stopped
+    environment:
+      OMP_NUM_THREADS: "2"
+      FACE_MAX_PARALLEL: "6"
+      FACE_DET_SIZE: "640"
+    volumes:
+      - ./deploy/face_service:/srv/face_service:ro
+      - modul_face_models:/root/.insightface
+    healthcheck:
+      test: ["CMD", "python", "-c", "import json,urllib.request,sys; sys.exit(0 if json.load(urllib.request.urlopen('http://127.0.0.1:8200/health', timeout=4)).get('ok') else 1)"]
+      interval: 20s
+      timeout: 6s
+      retries: 6
+      start_period: 120s
+    logging: *log
+
   api:
     build:
       context: .
@@ -66,3 +90,4 @@ volumes:
   modul_uploads:
   modul_private:
   modul_api_logs:
+  modul_face_models:

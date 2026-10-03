@@ -3,24 +3,32 @@ import { LockOutlined } from '@ant-design/icons';
 import { JshshirInput, JSHSHIR_LENGTH } from '@/shared/ui';
 import { appConfig } from '@/shared/config';
 import { useAuth } from './use-auth';
+import { FaceLoginPanel } from './face-login-panel';
 import { AuthWrapper } from './login.styles';
 
 const isDev = import.meta.env.DEV;
 const DEV_DEFAULT_PIN = '00000000000001';
 
-type Tab = 'oneid' | 'login';
+type Tab = 'oneid' | 'login' | 'face';
 
 export default function LoginPage() {
   const [tab, setTab] = useState<Tab>(isDev ? 'oneid' : 'login');
   const [pin, setPin] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, loginWithFace } = useAuth();
 
   const doLogin = async (value: string) => {
     if (value.length !== 14 || loading) return;
     setLoading(true);
     await login(value);
     setLoading(false);
+  };
+
+  const doFaceLogin = async (frames: Blob[]) => {
+    setLoading(true);
+    const ok = await loginWithFace(frames);
+    setLoading(false);
+    return ok;
   };
 
   return (
@@ -54,10 +62,23 @@ export default function LoginPage() {
           >
             Login
           </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={tab === 'face'}
+            className={`tab tab-login${tab === 'face' ? ' is-active' : ''}`}
+            onClick={() => setTab('face')}
+          >
+            Yuz bilan
+          </button>
         </div>
 
         <div className="login-card-bg">
-          {isDev && tab === 'oneid' ? (
+          {tab === 'face' ? (
+            <div className="tab-pane" key="face">
+              <FaceLoginPanel disabled={loading} onCapture={doFaceLogin} />
+            </div>
+          ) : isDev && tab === 'oneid' ? (
             <div className="tab-pane" key="oneid">
               <div className="card-bg-title">ONE ID orqali tizimga kiring</div>
               <div className="card-bg-desc">

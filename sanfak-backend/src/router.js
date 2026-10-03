@@ -5,6 +5,9 @@ const authenticate = require("#shared/authenticate");
 const winston = require("#shared/winston.logger");
 const { apiUserLimiter } = require("#shared/rateLimiter");
 
+// Yuz bilan kirish — umumiy /auth dan OLDIN (u o'zining authenticate'iga ega)
+router.use("/auth/face-login", require("./modules/4.15-faceLogin/faceLogin.routes"));
+
 router.use("/auth", require("./modules/4.01-auth/auth/auth.routes"));
 
 router.use(

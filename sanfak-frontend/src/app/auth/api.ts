@@ -13,6 +13,12 @@ export async function loginRequest(payload: LoginPayload): Promise<LoginTokens> 
   return postJson<LoginTokens>('/auth', payload);
 }
 
+export async function faceLoginRequest(frames: Blob[]): Promise<LoginTokens> {
+  const form = new FormData();
+  frames.forEach((blob, i) => form.append('frames', blob, `frame${i}.jpg`));
+  return postJson<LoginTokens>('/auth/face-login', form);
+}
+
 export interface ProfileResponse {
   _id: string;
   firstName: string;

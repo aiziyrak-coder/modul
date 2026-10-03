@@ -12,7 +12,7 @@ import {
   stopTokenRefreshScheduler,
 } from '@/shared/api';
 import { useSessionStore } from '@/app/session';
-import { fetchProfile, loginRequest } from './api';
+import { faceLoginRequest, fetchProfile, loginRequest } from './api';
 import type { ProfileResponse } from './api';
 
 function permissionsFromProfile(profile: ProfileResponse): string[] {
@@ -76,6 +76,32 @@ export function useAuth() {
     [applyProfile, message, navigate, setStatus],
   );
 
+  const loginWithFace = useCallback(
+    async (frames: Blob[]): Promise<boolean> => {
+      setStatus('loading');
+      try {
+        const { accessToken, refreshToken } = await faceLoginRequest(frames);
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken ?? null);
+
+        const profile = await fetchProfile();
+        applyProfile(profile);
+        startTokenRefreshScheduler();
+
+        message.success(`Xush kelibsiz, ${profile.firstName}!`);
+        navigate('/');
+        return true;
+      } catch (error) {
+        stopTokenRefreshScheduler();
+        clearTokens();
+        setStatus('unauthenticated');
+        message.error(getApiErrorMessage(error, 'Yuz bilan kirish amalga oshmadi'));
+        return false;
+      }
+    },
+    [applyProfile, message, navigate, setStatus],
+  );
+
   const logout = useCallback(async () => {
     try {
       await postJson('/auth/logout', {});
@@ -100,5 +126,5 @@ export function useAuth() {
     }
   }, [applyProfile, setStatus]);
 
-  return { login, logout, bootstrap };
+  return { login, loginWithFace, logout, bootstrap };
 }
