@@ -19,6 +19,12 @@ export async function faceLoginRequest(frames: Blob[]): Promise<LoginTokens> {
   return postJson<LoginTokens>('/auth/face-login', form);
 }
 
+export async function faceEnrollRequest(frames: Blob[]): Promise<{ message?: string }> {
+  const form = new FormData();
+  frames.forEach((blob, i) => form.append('frames', blob, `frame${i}.jpg`));
+  return postJson<{ message?: string }>('/auth/face-enroll', form);
+}
+
 export interface ProfileResponse {
   _id: string;
   firstName: string;

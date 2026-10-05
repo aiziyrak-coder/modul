@@ -104,4 +104,4 @@ async function identify(frames) {
   return decision;
 }
 
-module.exports = { identify, decide, invalidateCache, THRESHOLD, MARGIN };
+module.exports = { identify, decide, embedImage, invalidateCache, THRESHOLD, MARGIN };

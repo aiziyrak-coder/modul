@@ -7,3 +7,4 @@ export {
   type ProfileResponse,
 } from './api';
 export { default as LoginPage } from './login-page';
+export { FaceEnrollModal } from './face-enroll-modal';

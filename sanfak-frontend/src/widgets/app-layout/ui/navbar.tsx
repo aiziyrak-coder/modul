@@ -1,10 +1,17 @@
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ArrowLeftOutlined, DoubleLeftOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  ArrowLeftOutlined,
+  CameraOutlined,
+  DoubleLeftOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Button } from 'antd';
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, LanguageSwitcher } from '@/shared/ui';
 import { useSessionStore } from '@/app/session';
-import { useAuth } from '@/app/auth';
+import { FaceEnrollModal, useAuth } from '@/app/auth';
 import { useTranslation } from '@/shared/lib/i18n';
 import { usePageTitleStore } from '@/shared/lib/page-title-store';
 import type { MenuNode } from '@/app/modules/build-menu';
@@ -24,6 +31,7 @@ export function Navbar({ nodes, expand, onToggle }: Props) {
   const { t } = useTranslation();
   const user = useSessionStore((s) => s.user);
   const { logout } = useAuth();
+  const [enrollOpen, setEnrollOpen] = useState(false);
 
   const dynamicTitle = usePageTitleStore((s) => s.title);
   const showBack = usePageTitleStore((s) => s.back);
@@ -31,6 +39,12 @@ export function Navbar({ nodes, expand, onToggle }: Props) {
   const title = dynamicTitle !== '' ? dynamicTitle : menuTitle;
 
   const userMenu: MenuProps['items'] = [
+    {
+      key: 'face-enroll',
+      icon: <CameraOutlined />,
+      label: 'Yuzni ro‘yxatdan o‘tkazish',
+      onClick: () => setEnrollOpen(true),
+    },
     {
       key: 'logout',
       icon: <LogoutOutlined />,
@@ -78,6 +92,7 @@ export function Navbar({ nodes, expand, onToggle }: Props) {
           </S.UserInfo>
         </Dropdown>
       </S.NavbarRight>
+      <FaceEnrollModal open={enrollOpen} onClose={() => setEnrollOpen(false)} />
     </S.Navbar>
   );
 }

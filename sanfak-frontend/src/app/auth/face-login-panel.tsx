@@ -1,17 +1,27 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CameraOutlined } from '@ant-design/icons';
 
-const FRAME_COUNT = 2;
 const FRAME_GAP_MS = 700;
 
 interface Props {
   disabled?: boolean;
+  frameCount?: number;
+  title?: string;
+  description?: string;
+  buttonLabel?: string;
   onCapture: (frames: Blob[]) => Promise<boolean>;
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-export function FaceLoginPanel({ disabled, onCapture }: Props) {
+export function FaceLoginPanel({
+  disabled,
+  onCapture,
+  frameCount = 2,
+  title = 'Yuz orqali kiring',
+  description = `Kameraga to‘g‘ri qarang, yuzingiz yorug‘ va ochiq bo‘lsin. Tizim ketma-ket ${frameCount} ta kadr oladi.`,
+  buttonLabel = 'Yuzni skanerlash',
+}: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const [ready, setReady] = useState(false);
@@ -71,7 +81,7 @@ export function FaceLoginPanel({ disabled, onCapture }: Props) {
     setError(null);
     try {
       const frames: Blob[] = [];
-      for (let i = 0; i < FRAME_COUNT; i += 1) {
+      for (let i = 0; i < frameCount; i += 1) {
         if (i > 0) await sleep(FRAME_GAP_MS);
         const blob = await grabFrame();
         if (!blob) throw new Error('frame');
@@ -87,10 +97,8 @@ export function FaceLoginPanel({ disabled, onCapture }: Props) {
 
   return (
     <div>
-      <div className="card-bg-title">Yuz orqali kiring</div>
-      <div className="card-bg-desc">
-        Kameraga to‘g‘ri qarang, yuzingiz yorug‘ va ochiq bo‘lsin. Tizim ketma-ket 2 ta kadr oladi.
-      </div>
+      <div className="card-bg-title">{title}</div>
+      <div className="card-bg-desc">{description}</div>
       <video
         ref={videoRef}
         muted
@@ -115,7 +123,7 @@ export function FaceLoginPanel({ disabled, onCapture }: Props) {
         disabled={disabled || busy || !ready}
         onClick={() => void scan()}
       >
-        <CameraOutlined /> {busy ? 'Tekshirilmoqda…' : 'Yuzni skanerlash'}
+        <CameraOutlined /> {busy ? 'Tekshirilmoqda…' : buttonLabel}
       </button>
     </div>
   );

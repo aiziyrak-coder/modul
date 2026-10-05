@@ -22,6 +22,8 @@ const { handleUploadError, FILES_DIR } = require("#shared/upload");
 checkEnv();
 
 const app = express();
+// nginx ortida: haqiqiy mijoz IP si (aks holda kirish chegaralagichi hamma foydalanuvchiga umumiy bo'lib qoladi)
+app.set("trust proxy", 1);
 
 const origins = (process.env.CORS_ORIGINS || "http://localhost:5473")
   .split(",")

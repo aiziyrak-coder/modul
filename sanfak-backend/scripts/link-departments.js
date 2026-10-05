@@ -86,9 +86,15 @@ const clean = (s) => String(s || "").replace(/\s+/g, " ").trim();
     }
   }
   const links = await FaceLink.find({}).select("user hemisId").lean();
+  // qo'lda o'zgartirilgan bo'limlarni bosib ketmaslik: faqat bo'limi/fakulteti/bo'linmasi BO'SH foydalanuvchilar
+  const existingOrg = new Map(
+    (await UserModel.find({ _id: { $in: links.map((l) => l.user) } }).select("department faculty division").lean()).map((u) => [String(u._id), u]),
+  );
   const uStats = { bogLanadi: 0, kafedraga: 0, fakultetga: 0, bolimga: 0, topilmadi: 0 };
   const ops = [];
   for (const l of links) {
+    const cur = existingOrg.get(String(l.user));
+    if (cur && (cur.department || cur.faculty || cur.division)) { uStats.allaqachonBor = (uStats.allaqachonBor || 0) + 1; continue; }
     const rows = byKey.get(String(l.hemisId));
     if (!rows) { uStats.topilmadi++; continue; }
     const main = rows.find((r) => /asosiy/i.test(r.employmentForm?.name || "")) || rows[0];

@@ -10,6 +10,8 @@ const faceTemplateSchema = new mongoose.Schema(
     user: { type: mongoose.Schema.Types.ObjectId, ref: "user", default: null },
     embedding: { type: [Number], required: true, select: false },
     active: { type: Boolean, default: true },
+    // cam = cam.fermi.uz da tasdiqlangan; hemis = HEMIS surati; self = foydalanuvchi o'zi ro'yxatdan o'tkazgan
+    source: { type: String, enum: ["cam", "hemis", "self"], default: "cam" },
     syncedAt: { type: Date, default: Date.now },
   },
   { timestamps: true },

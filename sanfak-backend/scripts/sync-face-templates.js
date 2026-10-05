@@ -38,7 +38,7 @@ const readStdin = () =>
   const FaceLink = require("../src/modules/4.15-faceLogin/faceLink.model");
   await FaceTemplate.createIndexes();
 
-  const active = await FaceTemplate.countDocuments({ active: true });
+  const active = await FaceTemplate.countDocuments({ active: true, source: { $in: ["cam", null] } });
   if (!force && active && rows.length < active * 0.5) {
     console.log(`TO'XTATILDI: ${rows.length} ta yuz keldi, bazada ${active} ta faol. Hech narsa o'zgarmadi.`);
     await mongoose.disconnect();
@@ -56,7 +56,7 @@ const readStdin = () =>
     return {
       updateOne: {
         filter: { camPersonId: r.camId },
-        update: { $set: { kind: r.kind, user, embedding: r.vec, active: true, syncedAt: now } },
+        update: { $set: { kind: r.kind, user, embedding: r.vec, active: true, source: "cam", syncedAt: now } },
         upsert: true,
       },
     };
@@ -66,7 +66,10 @@ const readStdin = () =>
   if (!dry) {
     if (ops.length) await FaceTemplate.bulkWrite(ops, { ordered: false });
     // bu safar kelmaganlar (yuzi tasdig'i bekor bo'lgan, o'chirilgan) — faolsizlantiriladi
-    const r = await FaceTemplate.updateMany({ active: true, syncedAt: { $lt: now } }, { $set: { active: false } });
+    const r = await FaceTemplate.updateMany(
+      { active: true, source: { $in: ["cam", null] }, syncedAt: { $lt: now } },
+      { $set: { active: false } },
+    );
     o.deactivated = r.modifiedCount || 0;
   }
   console.log(
